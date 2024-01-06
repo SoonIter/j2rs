@@ -1,0 +1,6 @@
+[source.crates-io]
+registry = "https://github.com/rust-lang/crates.io-index"
+
+# workaround for getting workspace root dir, reference: https://github.com/rust-lang/cargo/issues/3946
+[env]
+CARGO_WORKSPACE_DIR = { value = "", relative = true }
