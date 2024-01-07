@@ -5,7 +5,7 @@ edition     = "2021"
 name        = "j2rs_find_up_simple"
 readme      = "README.md"
 repository  = "https://github.com/SoonIter/j2rs.git"
-version     = "0.0.1"
+version     = "0.0.2"
 
 license = "MIT"
 
