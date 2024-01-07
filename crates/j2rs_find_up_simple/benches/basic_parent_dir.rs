@@ -1,6 +1,6 @@
 use std::path::PathBuf;
 
-use criterion::{criterion_group, criterion_main, Criterion};
+use codspeed_criterion_compat::{criterion_group, criterion_main, Criterion};
 
 fn j2rs_find_up_simple() -> PathBuf {
   j2rs_find_up_simple::find_up("Cargo.lock").unwrap()

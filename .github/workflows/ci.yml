@@ -35,24 +35,29 @@ jobs:
         with:
           bins: just, cargo-nextest
           cache-base: '^(main|develop-)'
+          components: clippy
+
       - uses: mozilla-actions/sccache-action@v0.0.3
+
+      - name: Run linter
+        run: just lint
+
       - name: Run Test
         run: just test
 
-  lint:
-    name: Lint
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ubuntu-latest, windows-latest]
-      fail-fast: false
+  benchmark:
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: moonrepo/setup-rust@v1
         with:
-          bins: just
+          bins: cargo-codspeed
           cache-base: '^(main|develop-)'
           components: clippy
-      - uses: mozilla-actions/sccache-action@v0.0.3
-      - name: Run linter
-        run: just lint
+      - name: Build Benchmark
+        run: cargo codspeed build -p j2rs_find_up_simple
+      - name: Run benchmarks
+        uses: CodSpeedHQ/action@v2
+        with:
+          token: ${{ secrets.CODSPEED_TOKEN }}
+          run: 'cargo codspeed run'

@@ -12,9 +12,9 @@ license = "MIT"
 [dependencies]
 
 [dev-dependencies]
-criterion    = "0.5"
-lets_find_up = "0.0.3"
-sugar_path   = "0.0.12"
+codspeed-criterion-compat = "2.3.3"
+lets_find_up              = "0.0.3"
+sugar_path                = "0.0.12"
 
 
 [[bench]]

@@ -1,10 +1,12 @@
 # j2rs_find_up_simple
 
+[![crates-io](https://badgen.net/crates/v/j2rs_find_up_simple)](https://crates.io/crates/j2rs_find_up_simple)
+
 6-11x faster than [lets_find_up](https://github.com/jayvdb/lets_find_up)
 
 ```txt
 basic_parent_dir_benchmark/j2rs_find_up_simple
-  time:   [9.1448 µs 9.2468 µs 9.3716 µs]
+  time:   [8.8047 µs 8.8417 µs 8.8878 µs]
 basic_parent_dir_benchmark/lets_find_up
   time:   [55.477 µs 55.839 µs 56.543 µs]
 ```
