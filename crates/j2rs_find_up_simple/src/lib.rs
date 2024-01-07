@@ -33,15 +33,18 @@ pub fn find_up_with<T: AsRef<Path>>(name: T, option: FindUpOptions) -> Option<Pa
   let is_dir_kind = matches!(kind, FindUpKind::Directory);
 
   loop {
-    let temp_curr_path_name = curr_path_name.join(&name);
+    curr_path_name.push(name.as_ref());
 
-    if !is_dir_kind && temp_curr_path_name.is_file() {
-      return Some(temp_curr_path_name);
+    if !is_dir_kind && curr_path_name.is_file() {
+      return Some(curr_path_name);
     }
-    if is_dir_kind && temp_curr_path_name.is_dir() {
-      return Some(temp_curr_path_name);
+    if is_dir_kind && curr_path_name.is_dir() {
+      return Some(curr_path_name);
     }
-    if temp_curr_path_name.eq(&stop_at) {
+
+    curr_path_name.pop();
+
+    if curr_path_name.eq(&stop_at) {
       return None;
     }
     if curr_path_name.eq(Path::new("/")) {
