@@ -5,26 +5,30 @@ pub enum FindUpKind {
   Directory,
 }
 
-pub struct FindUpOption {
-  cwd: PathBuf,
-  kind: FindUpKind,
-  stop_at: PathBuf,
+pub struct FindUpOptions<'a> {
+  pub cwd: &'a Path,
+  pub kind: FindUpKind,
+  pub stop_at: PathBuf,
 }
 
-impl Default for FindUpOption {
+impl<'a> Default for FindUpOptions<'a> {
   fn default() -> Self {
-    let cwd_buf = std::env::current_dir().unwrap();
     Self {
-      cwd: cwd_buf,
+      cwd: Path::new("."),
       kind: FindUpKind::File,
-      stop_at: PathBuf::new().join("/"),
+      stop_at: PathBuf::from("/"),
     }
   }
 }
 
-pub fn find_up_with(name: PathBuf, option: FindUpOption) -> Option<PathBuf> {
-  let FindUpOption { cwd, kind, stop_at } = option;
-  let mut curr_path_name = cwd;
+pub fn find_up_with<T: AsRef<Path>>(name: T, option: FindUpOptions) -> Option<PathBuf> {
+  let FindUpOptions { cwd, kind, stop_at } = option;
+
+  let mut curr_path_name = if cwd.eq(Path::new(".")) {
+    std::env::current_dir().unwrap()
+  } else {
+    PathBuf::from(option.cwd)
+  };
 
   let is_dir_kind = matches!(kind, FindUpKind::Directory);
 
@@ -37,7 +41,10 @@ pub fn find_up_with(name: PathBuf, option: FindUpOption) -> Option<PathBuf> {
     if is_dir_kind && temp_curr_path_name.is_dir() {
       return Some(temp_curr_path_name);
     }
-    if temp_curr_path_name.eq(&stop_at) || temp_curr_path_name.eq(Path::new("/")) {
+    if temp_curr_path_name.eq(&stop_at) {
+      return None;
+    }
+    if curr_path_name.eq(Path::new("/")) {
       return None;
     }
 
@@ -45,6 +52,7 @@ pub fn find_up_with(name: PathBuf, option: FindUpOption) -> Option<PathBuf> {
   }
 }
 
-pub fn find_up(name: PathBuf) -> Option<PathBuf> {
-  find_up_with(name, FindUpOption::default())
+#[inline]
+pub fn find_up<T: AsRef<Path>>(name: T) -> Option<PathBuf> {
+  find_up_with(name, FindUpOptions::default())
 }
