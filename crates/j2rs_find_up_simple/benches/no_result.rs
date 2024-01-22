@@ -13,7 +13,9 @@ fn lets_find_up() -> std::io::Result<Option<PathBuf>> {
 fn main_bench(b: &mut Criterion) {
   let mut group = b.benchmark_group("no_result_benchmark");
   group.sample_size(10);
-  group.bench_function("j2rs_find_up_simple_no_result", |b| b.iter(j2rs_find_up_simple));
+  group.bench_function("j2rs_find_up_simple_no_result", |b| {
+    b.iter(j2rs_find_up_simple)
+  });
   group.bench_function("lets_find_up_no_result", |b| b.iter(lets_find_up));
 }
 

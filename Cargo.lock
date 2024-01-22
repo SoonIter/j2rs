@@ -285,6 +285,13 @@ dependencies = [
 ]
 
 [[package]]
+name = "j2rs_query_string"
+version = "0.1.0"
+dependencies = [
+ "serde",
+]
+
+[[package]]
 name = "j2rs_strip_ansi"
 version = "0.0.1"
 dependencies = [
